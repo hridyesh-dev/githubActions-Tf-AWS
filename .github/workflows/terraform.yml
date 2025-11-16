@@ -3,7 +3,7 @@ name: 'Terraform'
 #on push to main branch
 on:
   workflow_dispatch:
-    input:
+    inputs:
       terraform_action:
         type: choice
         description: select terraform Action
