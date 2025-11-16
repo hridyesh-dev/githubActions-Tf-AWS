@@ -9,77 +9,68 @@ on:
         description: select terraform Action
         options:
         - apply
-        - destroy 
-        required: true 
+        - destroy
+        required: true
 
   push:
     branches: [ "main" ]
-
-# which jobs want to run
 
 jobs:
   terraform:
     name: 'Terraform'
     env:
       #configure aws secrets to interact with aws 
-      AWS_ACCESS_KEY_ID: ${{secrets.AWS_DEVOPS_ACCESS_KEY_ID}}
-      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_DEVOPS_SECRET_ACCESS_KEY_ID}}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEVOPS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEVOPS_SECRET_ACCESS_KEY_ID }}
 
-    #github actions will run ubuntu image and download the repo  
     runs-on: ubuntu-latest
     environment: production
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 1.8.5
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: '.'
-        tf_actions_comment: true 
+        tf_actions_comment: true
         args: '-var="instance_type=t3.micro"'
-        
-    - name:  Terraform plan
+
+    - name: Terraform plan
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 1.8.5
         tf_actions_subcommand: 'plan'
         tf_actions_working_dir: '.'
-        tf_actions_comment: true 
+        tf_actions_comment: true
         args: '-var="instance_type=t3.micro"'
 
-    - name:  Terraform apply
-      if: ${{ github.event.inputs.terraform_action == 'apply' }}
+    - name: Terraform apply
+      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.terraform_action == 'apply' }}
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 1.8.5
-        tf_actions_subcommand: ${{ github.event.inputs.terraform_action}}
+        tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
         tf_actions_working_dir: '.'
-        tf_actions_comment: true 
+        tf_actions_comment: true
         args: '-var="instance_type=t3.micro" -auto-approve'
 
-    - name:  Terraform destroy
-      if: ${{ github.event.inputs.terraform_action == 'destroy' }}
+    - name: Terraform destroy
+      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.terraform_action == 'destroy' }}
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 1.8.5
-        tf_actions_subcommand: ${{ github.event.inputs.terraform_action}}
+        tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
         tf_actions_working_dir: '.'
-        tf_actions_comment: true 
+        tf_actions_comment: true
         args: '-var="instance_type=t3.micro" -auto-approve'
-
-
