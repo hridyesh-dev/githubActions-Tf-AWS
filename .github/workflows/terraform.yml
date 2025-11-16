@@ -15,7 +15,8 @@ on:
   push:
     branches: [ "main" ]
 
-# which jobs want to runn
+# which jobs want to run
+
 jobs:
   terraform:
     name: 'Terraform'
