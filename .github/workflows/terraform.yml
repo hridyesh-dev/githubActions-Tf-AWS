@@ -1,7 +1,7 @@
 name: 'Terraform'
 
-#on push to main branch
 on:
+#on workflow called
   workflow_dispatch:
     inputs:
       terraform_action:
@@ -12,6 +12,7 @@ on:
         - destroy
         required: true
 
+#on push to main branch
   push:
     branches: [ "main" ]
 
