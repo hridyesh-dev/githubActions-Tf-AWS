@@ -7,3 +7,15 @@ we can use github actions for performing ci/cd ops
 
 1) local tf file for ec2 
 2) and will see how github actions will create or destroy it 
+
+in github there is something like actions
+an option to configure pipeline to run on commit or Pr to target branches 
+
+in github actions it is executed by a runner 
+it is made on demand it will run the pipeline 
+and itll be destroyed along with it our ts-state file
+will be destroyed so to deal with this use a backend 
+
+just like in the cli we passed the aws credentials to connect 
+in the github actions pipeline we need to tell which 
+credentials we have to use to connect github runner to aws accounts 
