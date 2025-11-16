@@ -1,0 +1,9 @@
+When we want to perform ci/cd ops we use jenkins 
+when dev pushes it will start the jenkin pipeline 
+and it will start and upload to the target machine 
+
+but if we are using github as our version control 
+we can use github actions for performing ci/cd ops 
+
+1) local tf file for ec2 
+2) and will see how github actions will create or destroy it 
