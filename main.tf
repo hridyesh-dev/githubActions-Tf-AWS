@@ -1,6 +1,4 @@
-provider "aws" {
-    region = "ap-south-1"
-}
+
 
 data "aws_ami" "ubuntu" {
     most_recent = true
