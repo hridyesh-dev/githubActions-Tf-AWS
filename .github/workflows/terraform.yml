@@ -58,5 +58,6 @@ jobs:
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: '.'
         tf_actions_comment: true 
-        args: 'auto-approve -var="instance_type=t3.micro"'
+        args: '-var="instance_type=t3.micro" -auto-approve'
+
 
